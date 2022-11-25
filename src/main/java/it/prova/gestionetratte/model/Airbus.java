@@ -69,6 +69,16 @@ public class Airbus {
 		this.tratte = tratte;
 	}
 
+	public Airbus(String codice, String descrizione, LocalDate dataInizioServizio, Integer numeroPasseggeri,
+			Set<Tratta> tratte) {
+		super();
+		this.codice = codice;
+		this.descrizione = descrizione;
+		this.dataInizioServizio = dataInizioServizio;
+		this.numeroPasseggeri = numeroPasseggeri;
+		this.tratte = tratte;
+	}
+
 	public Long getId() {
 		return id;
 	}

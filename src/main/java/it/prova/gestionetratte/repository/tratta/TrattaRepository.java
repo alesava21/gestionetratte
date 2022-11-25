@@ -1,5 +1,17 @@
 package it.prova.gestionetratte.repository.tratta;
 
-public interface TrattaRepository {
+import java.util.List;
+
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
+
+import it.prova.gestionetratte.model.Tratta;
+
+public interface TrattaRepository extends CrudRepository<Tratta, Long>{
+	
+	@Query("select t from Tratta t join fetch t.airbus")
+	List<Tratta> findAllTratteEager();
+	
+	List<Tratta> findByCodiceAndDescrizione(String codicew, String descrizione);
 
 }
