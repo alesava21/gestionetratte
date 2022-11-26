@@ -31,7 +31,7 @@ public class GestionetratteApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		String codice = "JSYSDHDU";
-		String descrizione = "Roma - Bangock";
+		String descrizione = "Roma - bangkok";
 		Integer numeroPassegeri = 150;
 
 		DateTimeFormatter formatterDataAirbus = DateTimeFormatter.ofPattern("d/MM/yyyy");
@@ -57,11 +57,48 @@ public class GestionetratteApplication implements CommandLineRunner {
 		String time1 = "10.20";
 		LocalTime localTimeObjPartenza = LocalTime.parse(time1, formatterOraPartenza);
 
-		Tratta tratta = new Tratta("HSYYDHDI", "Roma - Bangock", localDate, localTimeObjDecollo, localTimeObjPartenza,
-				Stato.ATTIVA, airbusNew);
-		if (trattaService.findByCodiceAndDescrizione(tratta.getCodice(), tratta.getDescrizione()).isEmpty())
-			trattaService.inserisciNuovo(tratta);
+		Tratta trattaRomaBangkok = new Tratta("HSYYDHDI", "Roma - bangkok", localDate, localTimeObjDecollo,
+				localTimeObjPartenza, Stato.ATTIVA, airbusNew);
+		if (trattaService.findByCodiceAndDescrizione(trattaRomaBangkok.getCodice(), trattaRomaBangkok.getDescrizione())
+				.isEmpty()) {
+			trattaService.inserisciNuovo(trattaRomaBangkok);
+		}
 
+		String codiceLondraMilano = "GSTDJHSGDYDJ";
+		String descrizioneLondraMilano = "Londra - Milano";
+		Integer numeroPasseggeriAirbus = 250;
+
+		DateTimeFormatter formatterAirbusLondraMilano = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String AirbusLondraMilano = "26/11/2022";
+		LocalDate localDateAirbusLondraMilano = LocalDate.parse(AirbusLondraMilano, formatterAirbusLondraMilano);
+
+		Airbus airbusLondraMilano = airbusService.findByCodiceAndDescrizione(codiceLondraMilano,
+				descrizioneLondraMilano);
+
+		if (airbusLondraMilano == null) {
+			airbusLondraMilano = new Airbus(codiceLondraMilano, descrizioneLondraMilano, localDateAirbusLondraMilano,
+					numeroPasseggeriAirbus);
+			airbusService.inserisciNuovo(airbusLondraMilano);
+		}
+
+		DateTimeFormatter formatterDataTrattaLondraMilano = DateTimeFormatter.ofPattern("d/MM/yyyy");
+		String datePartenzaLondraMilano = "16/08/2022";
+		LocalDate localDateLondraMilano = LocalDate.parse(datePartenzaLondraMilano, formatterDataTrattaLondraMilano);
+
+		DateTimeFormatter formatterOraDecolloLondra = DateTimeFormatter.ofPattern("HH.mm");
+		String timeLondra = "05.40";
+		LocalTime localTimeObjDecolloLondra = LocalTime.parse(timeLondra, formatterOraDecolloLondra);
+
+		DateTimeFormatter formatterOraAtterraggioMilano = DateTimeFormatter.ofPattern("HH.mm");
+		String timeAtterraggioMilano = "10.20";
+		LocalTime localTimeObjAtterraggioMilano = LocalTime.parse(timeAtterraggioMilano, formatterOraAtterraggioMilano);
+
+		Tratta trattaLondraMilano = new Tratta("HSVSDHGCSA", "Londra - Milano", localDateLondraMilano,
+				localTimeObjDecolloLondra, localTimeObjAtterraggioMilano, Stato.CONCLUSA, airbusLondraMilano);
+		if (trattaService
+				.findByCodiceAndDescrizione(trattaLondraMilano.getCodice(), trattaLondraMilano.getDescrizione())
+				.isEmpty())
+			trattaService.inserisciNuovo(trattaLondraMilano);
 	}
 
 }
