@@ -58,4 +58,9 @@ public class AirbusServiceImpl implements AirbusService{
 		return repository.findByCodiceAndDescrizione(codice, descrizione);
 	}
 
+	@Override
+	public List<Airbus> findByExample(Airbus example) {
+		return repository.FindByExample(example);
+	}
+
 }

@@ -8,7 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.prova.gestionetratte.model.Airbus;
 
-public interface AirbusRepository extends CrudRepository<Airbus, Long>{
+public interface AirbusRepository extends CrudRepository<Airbus, Long>, CustomAirbusRepository{
 	Airbus findByCodiceAndDescrizione(String codice, String descrizione);
 	
 	@Query("select a from Airbus a join fetch a.tratte")
