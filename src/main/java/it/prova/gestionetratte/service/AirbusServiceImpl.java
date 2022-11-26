@@ -27,14 +27,12 @@ public class AirbusServiceImpl implements AirbusService{
 
 	@Override
 	public Airbus caricaSingoloElemento(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id).orElse(null);
 	}
 
 	@Override
 	public Airbus caricaSingoloElementoEager(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findByIdEager(id);
 	}
 
 	@Override
