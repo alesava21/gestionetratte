@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import it.prova.gestionetratte.model.Airbus;
-import it.prova.gestionetratte.model.Tratta;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class AirbusDTO {
@@ -25,22 +26,18 @@ public class AirbusDTO {
 	@NotBlank(message = "{descrizione.notblank}")
 	private String descrizione;
 
-	@NotBlank(message = "{datainizioservizio.notnull}")
+	@NotNull(message = "{dataInizioServizio.notnull}")
 	private LocalDate dataInizioServizio;
 
-	@NotBlank(message = "{numeropasseggeri.notnull}")
+	@NotBlank(message = "{numeroPasseggeri.notnull}")
+	@Min(0)
 	private Integer numeroPasseggeri;
 
 	@JsonIgnoreProperties(value = { "airbus" })
 	private Set<TrattaDTO> tratte = new HashSet<TrattaDTO>(0);
 
 	public AirbusDTO() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public AirbusDTO(Long id) {
-		super();
-		this.id = id;
 	}
 
 	public AirbusDTO(Long id, String codice, String descrizione, LocalDate dataInizioServizio,
@@ -110,19 +107,16 @@ public class AirbusDTO {
 				airbusModel.getDataInizioServizio(), airbusModel.getNumeroPasseggeri());
 		if (includeTratte)
 			result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusModel.getTratte(), false));
-		return null;
+		return result;
 	}
 
 	public static List<AirbusDTO> createAirbusDTOListFromModelList(List<Airbus> modelListInput, boolean includeTratte) {
-		return modelListInput.stream().map(
-
-				airbusEntity -> {
-					AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity, includeTratte);
-					if (includeTratte)
-						result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusEntity.getTratte(), false));
-					return result;
-				}).collect(Collectors.toList());
-
+		return modelListInput.stream().map(airbusEntity -> {
+			AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity, includeTratte);
+			if (includeTratte)
+				result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusEntity.getTratte(), false));
+			return result;
+		}).collect(Collectors.toList());
 	}
 
 }

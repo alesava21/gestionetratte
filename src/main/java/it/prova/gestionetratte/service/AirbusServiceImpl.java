@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionetratte.model.Airbus;
+import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.repository.airbus.AirbusRepository;
 
 @Service
@@ -18,6 +19,9 @@ public class AirbusServiceImpl implements AirbusService{
 
 	@Override
 	public List<Airbus> listAllElements(boolean eager) {
+		if (eager)
+			return (List<Airbus>) repository.findAllAirbusEager();
+
 		return (List<Airbus>) repository.findAll();
 	}
 
