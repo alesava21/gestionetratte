@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.prova.gestionetratte.dto.AirbusDTO;
 import it.prova.gestionetratte.dto.TrattaDTO;
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.service.TrattaService;
@@ -38,5 +39,11 @@ public class TrattaController {
 		Tratta trattaInserita = trattaService.inserisciNuovo(trattaInput.buildTrattaModel());
 		return TrattaDTO.buildTrattaDTOFromModel(trattaInserita, true);  
 	}
+	
+	@PostMapping("/search")
+	public List<TrattaDTO> search(@RequestBody TrattaDTO example) {
+		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()),
+				false);
+	} 
 
 }
