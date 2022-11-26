@@ -26,8 +26,7 @@ public class TrattaServiceImpl implements TrattaService {
 
 	@Override
 	public Tratta caricaSingoloElemento(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findById(id).orElse(null);
 	}
 
 	@Override

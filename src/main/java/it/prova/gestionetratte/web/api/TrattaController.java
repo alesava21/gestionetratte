@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,8 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionetratte.dto.AirbusDTO;
 import it.prova.gestionetratte.dto.TrattaDTO;
+import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.service.TrattaService;
+import it.prova.gestionetratte.web.api.exceprion.AirbusNotFoundException;
 import it.prova.gestionetratte.web.api.exceprion.IdNotNullForInsertException;
 
 @RestController
@@ -45,5 +48,15 @@ public class TrattaController {
 		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()),
 				false);
 	} 
+	
+	@GetMapping("/{id}")
+	public TrattaDTO findById(@PathVariable(value = "id", required = true) long id) {
+		Tratta tratta = trattaService.caricaSingoloElemento(id);
+
+		if (tratta == null)
+			throw new AirbusNotFoundException("Tratta not found con id: " + id);
+
+		return TrattaDTO.buildTrattaDTOFromModel(tratta, true);
+	}
 
 }
