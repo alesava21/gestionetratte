@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -31,14 +32,14 @@ public class AirbusController {
 	public List<AirbusDTO> getAll() {
 		// senza DTO qui hibernate dava il problema del N + 1 SELECT
 		// (probabilmente dovuto alle librerie che serializzano in JSON)
-		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.listAllElements(true), true);
+		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.listAllElements(false), true);
 	}
 
 	@PostMapping("/search")
 	public List<AirbusDTO> search(@RequestBody AirbusDTO example) {
 		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.findByExample(example.buildAirbusModel()),
 				false);
-	}
+	} 
 
 	@GetMapping("/{id}")
 	public AirbusDTO findById(@PathVariable(value = "id", required = true) long id) {
@@ -49,6 +50,30 @@ public class AirbusController {
 
 		return AirbusDTO.buildAirbusDTOFromModel(airbus, true);
 	}
+	
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public AirbusDTO createNew(@Valid @RequestBody AirbusDTO airbusInput) {
+		if (airbusInput.getId() != null) 
+			throw new IdNotNullForInsertException("Non e ammesso fornired un id per la creazione");
+			
+		Airbus airbusInserito = airbusService.inserisciNuovo(airbusInput.buildAirbusModel());
+		return  AirbusDTO.buildAirbusDTOFromModel(airbusInserito, false);
+	}
+	
+	@PutMapping("/{id}")
+	public AirbusDTO update(@Valid @RequestBody AirbusDTO airbusInput, @PathVariable(required = true) Long id) {
+		Airbus airbus = airbusService.caricaSingoloElemento(id);
+
+		if (airbus == null)
+			throw new AirbusNotFoundException("Airbus not found con id: " + id);
+
+		airbusInput.setId(id);
+		Airbus airbusAggiornato = airbusService.aggiorna(airbusInput.buildAirbusModel());
+		return AirbusDTO.buildAirbusDTOFromModel(airbusAggiornato, false);
+	}
+	
+	
 	
 
 }

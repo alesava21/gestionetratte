@@ -35,10 +35,9 @@ public class AirbusServiceImpl implements AirbusService{
 		return repository.findByIdEager(id);
 	}
 
-	@Override
+	@Transactional
 	public Airbus aggiorna(Airbus airbusInstance) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.save(airbusInstance);
 	}
 
 	@Transactional

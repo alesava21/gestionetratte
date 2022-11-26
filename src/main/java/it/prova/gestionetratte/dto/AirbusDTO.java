@@ -29,8 +29,8 @@ public class AirbusDTO {
 	@NotNull(message = "{dataInizioServizio.notnull}")
 	private LocalDate dataInizioServizio;
 
-	@NotBlank(message = "{numeroPasseggeri.notnull}")
-	@Min(0)
+	@NotNull(message = "{numeroPasseggeri.notnull}")
+	@Min(1)
 	private Integer numeroPasseggeri;
 
 	@JsonIgnoreProperties(value = { "airbus" })
@@ -105,16 +105,19 @@ public class AirbusDTO {
 	public static AirbusDTO buildAirbusDTOFromModel(Airbus airbusModel, boolean includeTratte) {
 		AirbusDTO result = new AirbusDTO(airbusModel.getId(), airbusModel.getCodice(), airbusModel.getDescrizione(),
 				airbusModel.getDataInizioServizio(), airbusModel.getNumeroPasseggeri());
-		if (includeTratte)
+		if(includeTratte)
 			result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusModel.getTratte(), false));
+		
+
 		return result;
 	}
 
 	public static List<AirbusDTO> createAirbusDTOListFromModelList(List<Airbus> modelListInput, boolean includeTratte) {
 		return modelListInput.stream().map(airbusEntity -> {
-			AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity, includeTratte);
-			if (includeTratte)
+			AirbusDTO result = AirbusDTO.buildAirbusDTOFromModel(airbusEntity,includeTratte);
+			if(includeTratte)
 				result.setTratte(TrattaDTO.createTrattaDTOSetFromModelSet(airbusEntity.getTratte(), false));
+
 			return result;
 		}).collect(Collectors.toList());
 	}
