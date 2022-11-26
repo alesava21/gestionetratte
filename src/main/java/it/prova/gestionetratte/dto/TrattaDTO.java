@@ -26,16 +26,16 @@ public class TrattaDTO {
 	@NotBlank(message = "{descrizione.notblank}")
 	private String descrizione;
 
-	@NotBlank(message = "{data.notnull}")
+	@NotNull(message = "{data.notnull}")
 	private LocalDate data;
 
-	@NotBlank(message = "{oradecollo.notnull}")
+	@NotNull(message = "{oradecollo.notnull}")
 	private LocalTime oraDecollo;
 
-	@NotBlank(message = "{oraatterraggio.notnull}")
+	@NotNull(message = "{oraatterraggio.notnull}")
 	private LocalTime oraAtterraggio;
 
-	@NotBlank(message = "{datainizioservizio.notblank")
+	@NotNull(message = "{stato.notnull")
 	private Stato stato;
 
 	@JsonIgnoreProperties(value = { "tratte" })
