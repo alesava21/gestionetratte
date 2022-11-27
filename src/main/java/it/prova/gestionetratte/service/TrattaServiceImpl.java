@@ -32,8 +32,7 @@ public class TrattaServiceImpl implements TrattaService {
 
 	@Override
 	public Tratta caricaSingoloElementoEager(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.findAllEager(id);
 	}
 
 	@Transactional
