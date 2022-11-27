@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import it.prova.gestionetratte.dto.AirbusConTratteDTO;
 import it.prova.gestionetratte.dto.AirbusDTO;
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.service.AirbusService;
@@ -78,6 +79,11 @@ public class AirbusController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable(required = true) Long id) {
 		airbusService.rimuovi(id);
+	}
+	
+	@GetMapping("/listaAirbusEvidenziandoSovrapposizioni")
+	public List<AirbusConTratteDTO> getListaAirbusEvidenziandoSovrapposizioni() {
+		return airbusService.findListaAirbusEvidenziandoSovrapposizioni();
 	}
 	
 	
