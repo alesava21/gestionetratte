@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.repository.tratta.TrattaRepository;
+import it.prova.gestionetratte.web.api.exceprion.TrattaNotFoundException;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,8 +48,9 @@ public class TrattaServiceImpl implements TrattaService {
 
 	@Transactional
 	public void rimuovi(Long idToRemove) {
-		// TODO Auto-generated method stub
-
+		repository.findById(idToRemove)
+				.orElseThrow(() -> new TrattaNotFoundException("Tratta not found con id:" + idToRemove));
+		repository.deleteById(idToRemove);
 	}
 
 	@Override
