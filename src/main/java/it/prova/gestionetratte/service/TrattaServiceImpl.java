@@ -35,10 +35,9 @@ public class TrattaServiceImpl implements TrattaService {
 		return null;
 	}
 
-	@Override
+	@Transactional
 	public Tratta aggiorna(Tratta trattaInstance) {
-		// TODO Auto-generated method stub
-		return null;
+		return repository.save(trattaInstance);
 	}
 
 	@Transactional
@@ -46,7 +45,7 @@ public class TrattaServiceImpl implements TrattaService {
 		return repository.save(trattaInstance);
 	}
 
-	@Override
+	@Transactional
 	public void rimuovi(Long idToRemove) {
 		// TODO Auto-generated method stub
 

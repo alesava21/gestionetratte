@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -57,6 +58,18 @@ public class TrattaController {
 			throw new AirbusNotFoundException("Tratta not found con id: " + id);
 
 		return TrattaDTO.buildTrattaDTOFromModel(tratta, true);
+	}
+	
+	@PutMapping("/{id}")
+	public TrattaDTO update(@Valid @RequestBody TrattaDTO trattaInput, @PathVariable(required = true) Long id) {
+		Tratta tratta = trattaService.caricaSingoloElemento(id);
+
+		if (tratta == null)
+			throw new AirbusNotFoundException("Airbus not found con id: " + id);
+
+		trattaInput.setId(id);
+		Tratta trattaDaAggiornare = trattaService.aggiorna(trattaInput.buildTrattaModel());
+		return TrattaDTO.buildTrattaDTOFromModel(trattaDaAggiornare, false);
 	}
 
 }
